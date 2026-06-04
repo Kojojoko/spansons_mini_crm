@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#0058be",
+                    "surface-tint": "#4d44e3",
+                    "on-surface-variant": "#464555",
+                    "on-background": "#191c1d",
+                    "status-proposal": "#06B6D4",
+                    "secondary-container": "#2170e4",
+                    "outline-variant": "#c7c4d8",
+                    "status-lost": "#EF4444",
+                    "status-won": "#10B981",
+                    "tertiary-container": "#6f3dd9",
+                    "error": "#ba1a1a",
+                    "background": "#f8f9fa",
+                    "surface-container": "#edeeef",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#f0f1f2",
+                    "surface-variant": "#e1e3e4",
+                    "tertiary": "#571ac0",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary-fixed": "#0f0069",
+                    "on-primary-container": "#dad7ff",
+                    "on-secondary-fixed-variant": "#004395",
+                    "error-container": "#ffdad6",
+                    "status-contacted": "#F59E0B",
+                    "surface-container-highest": "#e1e3e4",
+                    "on-tertiary": "#ffffff",
+                    "status-qualified": "#8B5CF6",
+                    "inverse-surface": "#2e3132",
+                    "on-primary": "#ffffff",
+                    "surface-container-high": "#e7e8e9",
+                    "surface-container-low": "#f3f4f5",
+                    "on-tertiary-container": "#e3d5ff",
+                    "surface-glass": "rgba(255, 255, 255, 0.7)",
+                    "on-secondary-container": "#fefcff",
+                    "on-secondary": "#ffffff",
+                    "status-new": "#3B82F6",
+                    "primary-container": "#4f46e5",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "border-subtle": "#E5E7EB",
+                    "surface-dim": "#d9dadb",
+                    "secondary-fixed": "#d8e2ff",
+                    "tertiary-fixed-dim": "#d0bcff",
+                    "surface": "#f8f9fa",
+                    "inverse-primary": "#c3c0ff",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#23005c",
+                    "on-surface": "#191c1d",
+                    "tertiary-fixed": "#e9ddff",
+                    "primary": "#3525cd",
+                    "on-secondary-fixed": "#001a42",
+                    "outline": "#777587",
+                    "on-tertiary-fixed-variant": "#5516be",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "primary-fixed": "#e2dfff",
+                    "surface-bright": "#f8f9fa"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "element-gap": "12px",
+                    "section-gap": "48px",
+                    "gutter": "24px",
+                    "edge-margin": "32px",
+                    "stack-compact": "8px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "headline-lg-mobile": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "label-md": ["Geist"],
+                    "label-sm": ["Geist"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "label-md": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-sm": ["11px", {"lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-glass dark:bg-surface-dim/70 backdrop-blur-xl border-r border-outline-variant dark:border-outline/20 shadow-sm flex flex-col h-full p-4 gap-element-gap z-50">
+<div class="flex flex-col gap-2 mb-8 px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">SPANDSONS</h1>
+<p class="font-label-sm text-label-sm tracking-widest text-outline">MINI CRM</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 rounded-lg font-body-md text-body-md active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- ACTIVE ITEM: Leads -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold font-body-md text-body-md active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_search</span>
+<span>Leads</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 rounded-lg font-body-md text-body-md active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 rounded-lg font-body-md text-body-md active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<button class="mt-4 mb-8 bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add</span>
+            New Lead
+        </button>
+<div class="border-t border-outline-variant/30 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 rounded-lg font-body-md text-body-md active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-surface-glass dark:bg-surface-dim/70 backdrop-blur-xl border-b border-outline-variant dark:border-outline/20 shadow-sm flex justify-between items-center px-edge-margin w-full z-40">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full font-body-md text-body-md focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all outline-none" placeholder="Search leads, companies..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low transition-colors rounded-full">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 group cursor-pointer">
+<div class="text-right hidden lg:block">
+<p class="font-label-md text-label-md text-on-surface leading-none">Alex Sterling</p>
+<p class="font-label-sm text-label-sm text-outline">Admin</p>
+</div>
+<img alt="User Profile" class="w-8 h-8 rounded-full border-2 border-white shadow-sm" data-alt="A professional headshot of a young male executive with a confident smile, wearing a modern charcoal blazer. The background is a brightly lit, minimalist office with clean lines and soft bokeh, reflecting a high-end corporate atmosphere with cool-toned studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHEbIbcsevV5fuLip84UXX6dqFvvAueKfyCsKHNdNRRfJ6fqLzUuzl1vyZ2p_WqHreh2sbTfvRyI25Ib_7pkA0Tn7wLbImkf84EHbCkOXpwsDPDOJZ2LM_cfAdF_jRmIg87u9o2vMXyVaYb-JfG1C2O-f9aktrmTt1G2I8PY80z_guPmhpZH1cRa9-X0FUh5KrvbRHr6mAMp9l0naQQGIK_X2O4P-d6n45cJd7UwbxCf9ZEGEcuOQzK2hyBOViDgpQHdJ1X8yy3u8"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-edge-margin min-h-screen">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Leads</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage and track your sales pipeline prospects.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 glass-card rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+                    Filters
+                </button>
+<button class="flex items-center gap-2 px-4 py-2.5 glass-card rounded-xl font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+                    Export
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-xl font-label-md text-label-md shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+                    Add Lead
+                </button>
+</div>
+</div>
+<!-- Bento Grid Stats (Optional Premium Touch) -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-8">
+<div class="glass-card p-5 rounded-2xl flex items-center gap-4">
+<div class="w-12 h-12 bg-status-new/10 text-status-new rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Total Leads</p>
+<p class="font-headline-md text-headline-md">1,284</p>
+</div>
+</div>
+<div class="glass-card p-5 rounded-2xl flex items-center gap-4">
+<div class="w-12 h-12 bg-status-qualified/10 text-status-qualified rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Qualified</p>
+<p class="font-headline-md text-headline-md">452</p>
+</div>
+</div>
+<div class="glass-card p-5 rounded-2xl flex items-center gap-4">
+<div class="w-12 h-12 bg-status-contacted/10 text-status-contacted rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Contacted</p>
+<p class="font-headline-md text-headline-md">89</p>
+</div>
+</div>
+<div class="glass-card p-5 rounded-2xl flex items-center gap-4">
+<div class="w-12 h-12 bg-status-won/10 text-status-won rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">auto_graph</span>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Conversion</p>
+<p class="font-headline-md text-headline-md">12.4%</p>
+</div>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-white rounded-2xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Name</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Company</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Email</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Phone</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-border-subtle" data-alt="A portrait of a cheerful professional woman with long dark hair, wearing a stylish light beige blazer. She is set against a clean, bright minimalist studio background with soft lighting that emphasizes a polished, corporate yet friendly aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD1YeIVv3SMrvDT6CVOLLEXonUFabTRehVjF66gqxq7pVbURsA_ViyNJYhbuK8G64f-WbviDSkWYnWPCYwKlfWnKU7RC1_5D9JaldXp94eVPQpxjYm1NgcfD6-IJJRCjrjCfqLy-miqOMQ-FBjtjajFxDUWjanli_9JNohv9LUXUykkxe3njj2bLjCIa8PF9XQG-Kzp5p-jH63DKMwWzIGvylgX4nrGqT3XMN5niKdI-Nt_3Zdko83tAv2Ze0aBVFscPz110fbCHI"/>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Sarah Jenkins</p>
+<p class="font-label-sm text-label-sm text-outline">Added 2 days ago</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Nexus Dynamics</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">s.jenkins@nexus.io</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">+1 (555) 012-3456</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-status-qualified/10 text-status-qualified font-label-sm text-label-sm rounded-full">Qualified</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container text-on-surface-variant rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container text-error rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-border-subtle" data-alt="A professional headshot of a middle-aged man with short beard and glasses, wearing a crisp white dress shirt. The background is a soft-focus modern office space with cool natural lighting, conveying expertise and approachable authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoB7l_9VRvLv8bNTg6rgPXWwA48R4ZImbvTuUZSSLA0gyF-hpR96zVbl54bjOwfUNPjkihNXRsC0GUqKt9FUvKw3lJHkstuequPW9txFdtXGBYkQ59cQC6XNRX_wpjE00FC8kuoSKwKkiu4MwZ8eKOHBMBHVoVCvhCgfsPaDJTMO06Bdqshr-QB4cX0jQwqKBQcvKzcZL3w9sYM16hdZ-u-osncOTznRGRXO6Ou3kDvMHUSNgzNaQI9zsTcKnPybJ02UL1jG7bXtI"/>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Marcus Thorne</p>
+<p class="font-label-sm text-label-sm text-outline">Added 5 days ago</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Lumina Systems</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">m.thorne@lumina.com</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">+1 (555) 987-6543</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-status-new/10 text-status-new font-label-sm text-label-sm rounded-full">New Lead</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container text-on-surface-variant rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container text-error rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-border-subtle" data-alt="A high-fashion professional portrait of a young woman with a sleek ponytail and minimal jewelry, wearing a navy blue tailored suit. The lighting is dramatic yet professional, with subtle shadows creating depth against a dark grey textured wall." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgb4D4q6p_kmDK7KeDcauAyJlHEesU0l-n8BkGwoefHNopV6aentXhvrFHpICUY6LXzEGeCiaa96WIxM70M6mdGvtOlhRyQjGUWzoZn8sz3D8SbLns1vD4M7sRfDhdaHdbpZ--UNk4EfjoTKWLJRPl7senbjVn_m0IeDPaYpokr_PC8-enLLdQA0CmLjoE8xwIG-f4pxa-u_8j05uVw1PJDjVtIiEYHVoD73RqAUerFW18Da-sH-2C6161DhYxPBC4Gd6lz-zswm8"/>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Elena Rodriguez</p>
+<p class="font-label-sm text-label-sm text-outline">Added 1 week ago</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Veloci Global</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">elena.r@veloci.global</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">+1 (555) 234-5678</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-status-contacted/10 text-status-contacted font-label-sm text-label-sm rounded-full">Contacted</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container text-on-surface-variant rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container text-error rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-border-subtle" data-alt="A portrait of a male professional in a smart-casual olive green shirt, smiling warmly. The setting is a bright atrium with architectural details and lush indoor plants in the background, creating an energetic and modern business vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-exiv-BSxLXA10leEGZdy9PJ3m5_xCcrv4avPimZ_KojTkBTWF5Rw0K2gT331SDj7flxAVEUwYAcszIJ7zeq1Onc5rylgyFsaQnu0CAWn8eTqzCRzMtr8QqbNYFrugAiN6_PTMRn05eL5Zl-PpoXZ0BxnBLpQs82s45UmlI6STMvbnbHFoAXzlIBz8khiQcPS7OL3GLgPNFX3kYV5RhJbTgqsGuiZLU5FKhwTf5C8IQASDdVHXlvgvREhkB8UyPAdou5TKUtuWos"/>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">David Chen</p>
+<p class="font-label-sm text-label-sm text-outline">Added 10 days ago</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Zenith Venture</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">d.chen@zenith.com</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">+1 (555) 345-6789</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-status-won/10 text-status-won font-label-sm text-label-sm rounded-full">Won</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container text-on-surface-variant rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container text-error rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-lowest transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover border border-border-subtle" data-alt="A portrait of a confident woman of color in a professional grey sweater, sitting in a contemporary minimalist lounge area. The background features clean wood paneling and soft indirect lighting, creating a warm yet highly professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5NW35ibPBWJZGcnuujPOmY15mk-CoW9jFAWC0ba9YgHX6D4FFAh49hSYYI_yt8pguJ-eUleVLpbK262OyYkOo93L2FEGRNlnNgFUKCwWG8K7THGNTLUN_Z1UDsxnlxZD5xioh_YiyKC_yikuonlsQtG4znAeVYons1UwhMHG3bKjVTkiSxkZPmIrkGFgK_l6rpUcQDZEI_ZdgMcurHzM2BFgB266Iulls1L4zCai4WkQ0PiEzc_qRJdAlSMDhn_dKjS27XvYNPQ4"/>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Alisha Patel</p>
+<p class="font-label-sm text-label-sm text-outline">Added 2 weeks ago</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">Spark Innovation</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">a.patel@spark.io</td>
+<td class="px-6 py-4 font-body-md text-body-md text-on-surface-variant">+1 (555) 456-7890</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-status-lost/10 text-status-lost font-label-sm text-label-sm rounded-full">Lost</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 hover:bg-surface-container text-on-surface-variant rounded-lg transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container text-error rounded-lg transition-colors" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 bg-surface-container-low/30 border-t border-border-subtle flex items-center justify-between">
+<p class="font-label-sm text-label-sm text-outline">Showing 1 to 5 of 1,284 leads</p>
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-sm text-label-sm">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container font-label-sm text-label-sm transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container font-label-sm text-label-sm transition-colors">3</button>
+<span class="text-outline mx-1">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container font-label-sm text-label-sm transition-colors">257</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for active scaling
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => el.classList.add('scale-95'));
+            el.addEventListener('mouseup', () => el.classList.remove('scale-95'));
+            el.addEventListener('mouseleave', () => el.classList.remove('scale-95'));
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

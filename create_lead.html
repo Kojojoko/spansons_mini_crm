@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SPANDSONS MINI CRM - Create Lead</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#0058be",
+                        "surface-tint": "#4d44e3",
+                        "on-surface-variant": "#464555",
+                        "on-background": "#191c1d",
+                        "status-proposal": "#06B6D4",
+                        "secondary-container": "#2170e4",
+                        "outline-variant": "#c7c4d8",
+                        "status-lost": "#EF4444",
+                        "status-won": "#10B981",
+                        "tertiary-container": "#6f3dd9",
+                        "error": "#ba1a1a",
+                        "background": "#f8f9fa",
+                        "surface-container": "#edeeef",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "surface-variant": "#e1e3e4",
+                        "tertiary": "#571ac0",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-primary-fixed": "#0f0069",
+                        "on-primary-container": "#dad7ff",
+                        "on-secondary-fixed-variant": "#004395",
+                        "error-container": "#ffdad6",
+                        "status-contacted": "#F59E0B",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-tertiary": "#ffffff",
+                        "status-qualified": "#8B5CF6",
+                        "inverse-surface": "#2e3132",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container-low": "#f3f4f5",
+                        "on-tertiary-container": "#e3d5ff",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-secondary-container": "#fefcff",
+                        "on-secondary": "#ffffff",
+                        "status-new": "#3B82F6",
+                        "primary-container": "#4f46e5",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "border-subtle": "#E5E7EB",
+                        "surface-dim": "#d9dadb",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-fixed-dim": "#d0bcff",
+                        "surface": "#f8f9fa",
+                        "inverse-primary": "#c3c0ff",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#23005c",
+                        "on-surface": "#191c1d",
+                        "tertiary-fixed": "#e9ddff",
+                        "primary": "#3525cd",
+                        "on-secondary-fixed": "#001a42",
+                        "outline": "#777587",
+                        "on-tertiary-fixed-variant": "#5516be",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "primary-fixed": "#e2dfff",
+                        "surface-bright": "#f8f9fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "element-gap": "12px",
+                        "section-gap": "48px",
+                        "gutter": "24px",
+                        "edge-margin": "32px",
+                        "stack-compact": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "label-md": ["Geist"],
+                        "label-sm": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "600"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "label-md": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-sm": ["11px", {"lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .modal-overlay {
+            background: rgba(25, 28, 29, 0.4);
+            backdrop-filter: blur(8px);
+        }
+        input:focus + label,
+        input:not(:placeholder-shown) + label,
+        textarea:focus + label,
+        textarea:not(:placeholder-shown) + label {
+            transform: translateY(-24px) scale(0.85);
+            color: #3525cd;
+            font-weight: 600;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e1e3e4;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface overflow-hidden">
+<!-- Background Dashboard (Simulated) -->
+<div class="flex h-screen w-full blur-md grayscale-[0.2] pointer-events-none">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full w-64 flex flex-col h-full p-4 gap-element-gap bg-surface-glass border-r border-outline-variant shadow-sm z-10">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">layers</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">SPANDSONS</h1>
+<p class="font-label-sm text-label-sm opacity-60">MINI CRM</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="bg-primary-container text-on-primary-container rounded-lg font-bold flex items-center gap-3 px-4 py-3">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</div>
+<div class="text-on-surface-variant hover:bg-surface-variant/50 transition-colors flex items-center gap-3 px-4 py-3 rounded-lg">
+<span class="material-symbols-outlined">person_search</span>
+<span class="font-body-md text-body-md">Leads</span>
+</div>
+</nav>
+</aside>
+<main class="ml-64 flex-1 flex flex-col">
+<!-- TopNavBar Anchor -->
+<header class="h-16 flex justify-between items-center px-edge-margin w-full z-40 bg-surface-glass border-b border-outline-variant shadow-sm">
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">Dashboard Overview</h2>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined p-2">notifications</span>
+<div class="w-8 h-8 rounded-full bg-surface-variant"></div>
+</div>
+</header>
+<div class="p-edge-margin space-y-gutter">
+<div class="grid grid-cols-4 gap-gutter">
+<div class="h-32 bg-surface-container rounded-xl"></div>
+<div class="h-32 bg-surface-container rounded-xl"></div>
+<div class="h-32 bg-surface-container rounded-xl"></div>
+<div class="h-32 bg-surface-container rounded-xl"></div>
+</div>
+<div class="h-96 bg-surface-container rounded-xl"></div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay transition-opacity duration-300" id="modal-container">
+<!-- Premium Modal -->
+<div class="glass-panel w-full max-w-2xl rounded-[24px] shadow-[0_20px_40px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col animate-in fade-in zoom-in duration-500">
+<!-- Modal Header -->
+<div class="p-8 pb-0 flex justify-between items-start">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-primary mb-2">Create New Lead</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Fill in the technical profile of your next opportunity.</p>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors active:scale-95" onclick="window.history.back()">
+<span class="material-symbols-outlined text-outline">close</span>
+</button>
+</div>
+<!-- Form Body -->
+<form class="p-8 custom-scrollbar max-h-[716px] overflow-y-auto space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-gutter gap-y-10 pt-4">
+<!-- Lead Name -->
+<div class="relative group">
+<input class="peer w-full h-12 bg-transparent border-b-2 border-outline-variant focus:border-primary outline-none transition-all px-0 font-body-lg text-body-lg" id="lead_name" placeholder=" " type="text"/>
+<label class="absolute left-0 top-3 text-outline group-focus-within:text-primary transition-all duration-300 cursor-text font-body-lg" for="lead_name">Lead Name</label>
+</div>
+<!-- Company -->
+<div class="relative group">
+<input class="peer w-full h-12 bg-transparent border-b-2 border-outline-variant focus:border-primary outline-none transition-all px-0 font-body-lg text-body-lg" id="company" placeholder=" " type="text"/>
+<label class="absolute left-0 top-3 text-outline group-focus-within:text-primary transition-all duration-300 cursor-text font-body-lg" for="company">Company</label>
+</div>
+<!-- Email -->
+<div class="relative group">
+<input class="peer w-full h-12 bg-transparent border-b-2 border-outline-variant focus:border-primary outline-none transition-all px-0 font-body-lg text-body-lg" id="email" placeholder=" " type="email"/>
+<label class="absolute left-0 top-3 text-outline group-focus-within:text-primary transition-all duration-300 cursor-text font-body-lg" for="email">Email Address</label>
+</div>
+<!-- Phone -->
+<div class="relative group">
+<input class="peer w-full h-12 bg-transparent border-b-2 border-outline-variant focus:border-primary outline-none transition-all px-0 font-body-lg text-body-lg" id="phone" placeholder=" " type="tel"/>
+<label class="absolute left-0 top-3 text-outline group-focus-within:text-primary transition-all duration-300 cursor-text font-body-lg" for="phone">Phone Number</label>
+</div>
+<!-- Status Dropdown -->
+<div class="relative group md:col-span-2">
+<div class="flex items-center gap-4 flex-wrap">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider w-full mb-2">Initial Status</span>
+<label class="cursor-pointer">
+<input checked="" class="hidden peer" name="status" type="radio"/>
+<div class="px-5 py-2 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant peer-checked:bg-status-new peer-checked:text-white peer-checked:border-status-new transition-all font-label-md">New</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="status" type="radio"/>
+<div class="px-5 py-2 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant peer-checked:bg-status-contacted peer-checked:text-white peer-checked:border-status-contacted transition-all font-label-md">Contacted</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="status" type="radio"/>
+<div class="px-5 py-2 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant peer-checked:bg-status-qualified peer-checked:text-white peer-checked:border-status-qualified transition-all font-label-md">Qualified</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="status" type="radio"/>
+<div class="px-5 py-2 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant peer-checked:bg-status-proposal peer-checked:text-white peer-checked:border-status-proposal transition-all font-label-md">Proposal</div>
+</label>
+</div>
+</div>
+<!-- Notes -->
+<div class="relative group md:col-span-2">
+<textarea class="peer w-full bg-transparent border-b-2 border-outline-variant focus:border-primary outline-none transition-all px-0 pt-4 font-body-lg text-body-lg resize-none" id="notes" placeholder=" " rows="3"></textarea>
+<label class="absolute left-0 top-4 text-outline group-focus-within:text-primary transition-all duration-300 cursor-text font-body-lg" for="notes">Lead Notes &amp; Context</label>
+</div>
+</div>
+<!-- Subtle Decorative Element -->
+<div class="pt-8 border-t border-outline-variant/30 flex items-center gap-6">
+<div class="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl" data-weight="fill">verified_user</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md text-on-surface font-bold">Auto-Enrichment Enabled</p>
+<p class="font-body-md text-body-md text-on-surface-variant opacity-80">We'll automatically fetch LinkedIn and public data based on the provided email.</p>
+</div>
+</div>
+</form>
+<!-- Modal Footer -->
+<div class="p-8 pt-4 flex gap-4 items-center justify-end bg-surface-container-lowest/50">
+<button class="px-6 py-3 rounded-xl font-label-md text-label-md text-on-surface hover:bg-surface-variant transition-colors active:scale-95">
+                    Discard Draft
+                </button>
+<button class="px-8 py-3 rounded-xl bg-primary text-on-primary font-label-md text-label-md shadow-lg shadow-primary/20 flex items-center gap-2 hover:brightness-110 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                    Save Lead
+                </button>
+</div>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full -z-10"></div>
+<div class="fixed bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary/5 blur-[120px] rounded-full -z-10"></div>
+<script>
+        // Micro-interactions
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('focused');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('focused');
+            });
+        });
+
+        // Simple animation on submit simulation
+        document.querySelector('button.bg-primary').addEventListener('click', (e) => {
+            e.preventDefault();
+            const btn = e.currentTarget;
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Saving...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check</span> Success';
+                btn.classList.replace('bg-primary', 'bg-status-won');
+                setTimeout(() => {
+                    document.getElementById('modal-container').classList.add('opacity-0', 'pointer-events-none');
+                }, 800);
+            }, 1500);
+        });
+    </script>
+</body></html>
