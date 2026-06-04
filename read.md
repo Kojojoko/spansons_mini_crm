@@ -39,3 +39,32 @@ The SPANDSONS Mini CRM is targeted towards professionals and teams requiring a f
 *   **Sales Representatives & Account Executives:** To track prospects, update qualification states, monitor their personal conversion rates, and export monthly leads to standard sheets.
 *   **Growth Agencies & Consultants:** Who want a lightweight tracking dashboard to monitor inbound leads and export CSV summaries to clients without managing complex enterprise systems.
 *   **Startup Founders & Small Businesses:** Looking for an intuitive pipeline management dashboard that is self-hostable, lightning-fast, and secure.
+
+---
+
+## 🔒 Roles & Data Visibility (Who Can See Who?)
+
+The system enforces **Strict Tenant-Level Isolation** by design:
+
+### 1. User Roles
+All users register with the same basic role privileges. There is no supervisor, manager, or global administrator role in this workspace by default. Every registered email behaves as an independent, private workspace owner.
+
+### 2. Visibility Matrix (Who Can See What?)
+| Action | Self-Owned Leads | Other Users' Leads |
+| :--- | :---: | :---: |
+| **View Stats / Trends** | ✅ Allowed | ❌ Blocked |
+| **List / Search Leads** | ✅ Allowed | ❌ Blocked |
+| **Edit / Patch Status** | ✅ Allowed | ❌ Blocked (Returns `401 Unauthorized`) |
+| **Delete Leads** | ✅ Allowed | ❌ Blocked (Returns `401 Unauthorized`) |
+| **Export CSV** | ✅ Allowed | ❌ Blocked |
+
+### 3. How Security is Enforced:
+*   **Query-Level Filtering:** The backend filters all `GET /api/leads` and `GET /api/dashboard/stats` database queries with `{ createdBy: req.user.id }`.
+*   **Ownership Validation:** In the update (`PUT`), delete (`DELETE`), and status-patch (`PATCH`) endpoints, the controllers explicitly compare the resource creator to the authenticated user token:
+    ```javascript
+    if (lead.createdBy.toString() !== req.user.id) {
+      return res.status(401).json({ success: false, message: 'Not authorized' });
+    }
+    ```
+    This prevents users from spoofing IDs in URLs to read or edit someone else's prospects.
+
