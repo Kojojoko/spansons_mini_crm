@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [recentLeads, setRecentLeads] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [statusBreakdown, setStatusBreakdown] = useState({});
+  const [employeeStats, setEmployeeStats] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
   const [activeDropdownId, setActiveDropdownId] = useState(null);
@@ -27,6 +28,7 @@ const Dashboard = () => {
         setRecentLeads(res.data.recentLeads);
         setChartData(res.data.chartData);
         setStatusBreakdown(res.data.statusBreakdown);
+        setEmployeeStats(res.data.employeeStats || []);
       }
     } catch (err) {
       console.error(err);
@@ -230,110 +232,150 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Recent Leads Table Card */}
-      <div className="bg-white rounded-2xl border border-border-subtle shadow-sm overflow-hidden">
-        <header className="p-6 border-b border-border-subtle flex justify-between items-center bg-surface-container-low/20">
-          <h3 className="font-headline-md text-headline-md font-bold text-on-surface">Recent Leads</h3>
-          <button 
-            onClick={() => navigate('/leads')}
-            className="font-label-md text-label-md text-primary font-bold hover:underline"
-          >
-            Manage Pipeline
-          </button>
-        </header>
+      {/* Bottom Grid: Recent Leads & Team Contribution */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+        {/* Recent Leads Table Card */}
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-border-subtle shadow-sm overflow-hidden flex flex-col justify-between">
+          <div>
+            <header className="p-6 border-b border-border-subtle flex justify-between items-center bg-surface-container-low/20">
+              <h3 className="font-headline-md text-headline-md font-bold text-on-surface">Recent Leads</h3>
+              <button 
+                onClick={() => navigate('/leads')}
+                className="font-label-md text-label-md text-primary font-bold hover:underline"
+              >
+                Manage Pipeline
+              </button>
+            </header>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-surface-container-low/50">
-                <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Prospect Name</th>
-                <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Company</th>
-                <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Email Address</th>
-                <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Deal Value</th>
-                <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-subtle">
-              {recentLeads.map((lead) => (
-                <tr key={lead._id} className="hover:bg-surface-container-lowest transition-colors group">
-                  <td className="px-6 py-4">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-surface-container-low/50">
+                    <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Prospect Name</th>
+                    <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Company</th>
+                    <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Email Address</th>
+                    <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Deal Value</th>
+                    <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-4 font-label-sm text-label-sm text-on-surface-variant opacity-60 uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-subtle">
+                  {recentLeads.map((lead) => (
+                    <tr key={lead._id} className="hover:bg-surface-container-lowest transition-colors group">
+                      <td className="px-6 py-4">
+                        <div>
+                          <p className="font-body-md text-body-md font-semibold text-on-surface">{lead.name}</p>
+                          <p className="font-label-sm text-label-sm text-on-surface-variant opacity-60">
+                            {lead.phone || 'No phone'}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 font-body-md text-body-md text-on-surface-variant">
+                        {lead.company || '—'}
+                      </td>
+                      <td className="px-6 py-4 font-body-md text-body-md text-on-surface-variant">
+                        {lead.email}
+                      </td>
+                      <td className="px-6 py-4 font-body-md text-body-md font-semibold text-on-surface">
+                        ${lead.value?.toLocaleString() || '0'}
+                      </td>
+                      <td className="px-6 py-4 relative">
+                        {/* Status Badge Dropdown Trigger */}
+                        <div className="relative inline-block text-left">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveDropdownId(activeDropdownId === lead._id ? null : lead._id);
+                            }}
+                            className={`px-3 py-1 font-label-sm text-label-sm rounded-full flex items-center gap-1 hover:brightness-95 transition-all ${getStatusStyle(lead.status)}`}
+                          >
+                            {lead.status}
+                            <span className="material-symbols-outlined text-[12px]">arrow_drop_down</span>
+                          </button>
+
+                          {/* Dropdown Options */}
+                          {activeDropdownId === lead._id && (
+                            <>
+                              <div 
+                                className="fixed inset-0 z-10" 
+                                onClick={() => setActiveDropdownId(null)}
+                              ></div>
+                              <div className="absolute left-0 mt-1.5 w-36 rounded-lg bg-white border border-outline-variant shadow-lg z-20 py-1 overflow-hidden">
+                                {['New', 'Contacted', 'Qualified', 'Won', 'Lost'].map((s) => (
+                                  <button
+                                    key={s}
+                                    onClick={() => handleStatusChange(lead._id, s)}
+                                    className={`w-full text-left px-4 py-2 font-label-sm text-label-sm hover:bg-surface-container transition-colors ${
+                                      lead.status === s ? 'font-bold text-primary' : 'text-on-surface-variant'
+                                    }`}
+                                  >
+                                    {s}
+                                  </button>
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => handleEditClick(lead._id)}
+                            className="p-2 hover:bg-surface-container text-on-surface-variant rounded-lg transition-colors"
+                            title="Edit Details"
+                          >
+                            <span className="material-symbols-outlined text-[20px]">edit</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {recentLeads.length === 0 && (
+                    <tr>
+                      <td colSpan="6" className="px-6 py-12 text-center text-on-surface-variant opacity-60">
+                        No leads registered yet. Click "New Lead" to start your pipeline.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Team Contribution Card */}
+        <div className="glass-card p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <h3 className="font-headline-md text-headline-md font-bold text-on-surface mb-6">Team Contribution</h3>
+            <div className="space-y-4 max-h-[350px] overflow-y-auto pr-1">
+              {employeeStats.map((emp) => (
+                <div key={emp._id} className="flex items-center justify-between border-b border-outline-variant/20 pb-3 last:border-b-0 last:pb-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full border border-primary-container bg-primary/10 flex items-center justify-center font-bold text-primary text-sm shadow-sm">
+                      {emp.name ? emp.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'EM'}
+                    </div>
                     <div>
-                      <p className="font-body-md text-body-md font-semibold text-on-surface">{lead.name}</p>
-                      <p className="font-label-sm text-label-sm text-on-surface-variant opacity-60">
-                        {lead.phone || 'No phone'}
-                      </p>
+                      <p className="font-body-md text-body-md font-bold text-on-surface">{emp.name || 'Employee'}</p>
+                      <p className="font-label-sm text-label-sm text-on-surface-variant opacity-60">{emp.email}</p>
                     </div>
-                  </td>
-                  <td className="px-6 py-4 font-body-md text-body-md text-on-surface-variant">
-                    {lead.company || '—'}
-                  </td>
-                  <td className="px-6 py-4 font-body-md text-body-md text-on-surface-variant">
-                    {lead.email}
-                  </td>
-                  <td className="px-6 py-4 font-body-md text-body-md font-semibold text-on-surface">
-                    ${lead.value?.toLocaleString() || '0'}
-                  </td>
-                  <td className="px-6 py-4 relative">
-                    {/* Status Badge Dropdown Trigger */}
-                    <div className="relative inline-block text-left">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveDropdownId(activeDropdownId === lead._id ? null : lead._id);
-                        }}
-                        className={`px-3 py-1 font-label-sm text-label-sm rounded-full flex items-center gap-1 hover:brightness-95 transition-all ${getStatusStyle(lead.status)}`}
-                      >
-                        {lead.status}
-                        <span className="material-symbols-outlined text-[12px]">arrow_drop_down</span>
-                      </button>
-
-                      {/* Dropdown Options */}
-                      {activeDropdownId === lead._id && (
-                        <>
-                          <div 
-                            className="fixed inset-0 z-10" 
-                            onClick={() => setActiveDropdownId(null)}
-                          ></div>
-                          <div className="absolute left-0 mt-1.5 w-36 rounded-lg bg-white border border-outline-variant shadow-lg z-20 py-1 overflow-hidden">
-                            {['New', 'Contacted', 'Qualified', 'Won', 'Lost'].map((s) => (
-                              <button
-                                key={s}
-                                onClick={() => handleStatusChange(lead._id, s)}
-                                className={`w-full text-left px-4 py-2 font-label-sm text-label-sm hover:bg-surface-container transition-colors ${
-                                  lead.status === s ? 'font-bold text-primary' : 'text-on-surface-variant'
-                                }`}
-                              >
-                                {s}
-                              </button>
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => handleEditClick(lead._id)}
-                        className="p-2 hover:bg-surface-container text-on-surface-variant rounded-lg transition-colors"
-                        title="Edit Details"
-                      >
-                        <span className="material-symbols-outlined text-[20px]">edit</span>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-headline-md text-headline-md font-bold text-primary">{emp.leadCount}</span>
+                    <p className="font-label-sm text-label-sm text-on-surface-variant opacity-50">leads</p>
+                  </div>
+                </div>
               ))}
-              {recentLeads.length === 0 && (
-                <tr>
-                  <td colSpan="6" className="px-6 py-12 text-center text-on-surface-variant opacity-60">
-                    No leads registered yet. Click "New Lead" to start your pipeline.
-                  </td>
-                </tr>
+              {employeeStats.length === 0 && (
+                <p className="text-on-surface-variant opacity-60 text-center py-6">No employee contribution records found.</p>
               )}
-            </tbody>
-          </table>
+            </div>
+          </div>
+          <button 
+            onClick={() => navigate('/profile')}
+            className="w-full mt-6 py-2.5 border border-border-subtle rounded-xl font-label-md text-label-md hover:bg-surface-variant/40 transition-all text-center text-on-surface-variant font-bold"
+          >
+            My Contribution Profile
+          </button>
         </div>
       </div>
     </div>

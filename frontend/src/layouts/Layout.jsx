@@ -60,6 +60,19 @@ const Layout = ({ onSearchChange, searchValue }) => {
             <span className="material-symbols-outlined">person_search</span>
             <span className="font-body-md text-body-md">Leads</span>
           </Link>
+
+          <Link
+            to="/profile"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`flex items-center gap-3 px-4 py-3 transition-all rounded-lg active:scale-95 ${
+              isActive('/profile')
+                ? 'bg-primary-container text-on-primary-container font-bold'
+                : 'text-on-surface-variant hover:bg-surface-variant/50'
+            }`}
+          >
+            <span className="material-symbols-outlined">account_circle</span>
+            <span className="font-body-md text-body-md">Profile</span>
+          </Link>
         </nav>
 
         <button 
@@ -104,7 +117,13 @@ const Layout = ({ onSearchChange, searchValue }) => {
                 placeholder="Search leads, companies, or emails..."
                 type="text"
                 value={searchValue || ''}
-                onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  onSearchChange && onSearchChange(val);
+                  if (location.pathname !== '/leads') {
+                    navigate('/leads');
+                  }
+                }}
               />
             </div>
           </div>
@@ -117,19 +136,19 @@ const Layout = ({ onSearchChange, searchValue }) => {
               </button>
             </div>
             <div className="h-8 w-[1px] bg-outline-variant hidden sm:block"></div>
-            <div className="flex items-center gap-3">
+            <Link to="/profile" className="flex items-center gap-3 hover:opacity-90 active:scale-95 transition-all cursor-pointer">
               <div className="text-right hidden sm:block">
                 <p className="font-label-md text-label-md font-bold text-on-surface leading-tight">
                   {user?.name || 'Alex Sterling'}
                 </p>
                 <p className="font-label-sm text-label-sm text-on-surface-variant opacity-70">
-                  Sales Manager
+                  Sales Agent
                 </p>
               </div>
-              <div className="w-10 h-10 rounded-full border-2 border-primary-container bg-primary/10 flex items-center justify-center font-bold text-primary font-headline-md shadow-sm">
+              <div className="w-10 h-10 rounded-full border-2 border-primary-container bg-primary/10 flex items-center justify-center font-bold text-primary font-headline-md shadow-sm animate-pulse-subtle">
                 {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'AS'}
               </div>
-            </div>
+            </Link>
           </div>
         </header>
 

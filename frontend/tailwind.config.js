@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       "colors": {
-        "secondary": "#0058be",
+        "secondary": "#be6500ff",
         "surface-tint": "#4d44e3",
         "on-surface-variant": "#464555",
         "on-background": "#191c1d",
@@ -56,7 +56,7 @@ export default {
         "on-tertiary-fixed": "#23005c",
         "on-surface": "#191c1d",
         "tertiary-fixed": "#e9ddff",
-        "primary": "#3525cd",
+        "primary": "#DE7356",
         "on-secondary-fixed": "#001a42",
         "outline": "#777587",
         "on-tertiary-fixed-variant": "#5516be",

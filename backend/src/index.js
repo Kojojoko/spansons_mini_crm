@@ -10,9 +10,8 @@ const app = express();
 
 // Middlewares
 app.use(cors({
-  origin: '*', // Allow all origins for local development simplicity
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: process.env.FRONTEND_URL || '*', 
+  // ...
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -9,6 +9,8 @@ exports.getDashboardStats = async (req, res) => {
 
     // 1. Calculate main counts
     const totalLeads = await Lead.countDocuments({ createdBy: userId });
+    const userLeads = await Lead.countDocuments({ createdBy: userId, isDemo: { $ne: true } });
+    const globalTotalLeads = await Lead.countDocuments({});
     const activeLeads = await Lead.countDocuments({
       createdBy: userId,
       status: { $in: ['New', 'Contacted', 'Qualified'] }
@@ -70,17 +72,44 @@ exports.getDashboardStats = async (req, res) => {
       };
     });
 
+    // 5. Employee stats (leads added per employee)
+    const User = require('../models/User');
+    const employeeStats = await User.aggregate([
+      {
+        $lookup: {
+          from: 'leads',
+          localField: '_id',
+          foreignField: 'createdBy',
+          as: 'leads'
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          leadCount: { $size: '$leads' }
+        }
+      },
+      {
+        $sort: { leadCount: -1 }
+      }
+    ]);
+
     res.json({
       success: true,
       stats: {
         totalLeads,
+        userLeads,
+        globalTotalLeads,
         activeLeads,
         wonDeals,
         lostLeads
       },
       recentLeads,
       statusBreakdown,
-      chartData
+      chartData,
+      employeeStats
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

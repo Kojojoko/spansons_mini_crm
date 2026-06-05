@@ -36,15 +36,15 @@ exports.register = async (req, res) => {
       // Auto-seed demo leads for the user so the dashboard is instantly visual and interactive
       const Lead = require('../models/Lead');
       const demoLeads = [
-        { name: 'Jordan Sterling', email: 'j.sterling@sterling.digital', phone: '+1 (555) 019-2834', company: 'Sterling Digital', status: 'New', value: 12500, notes: 'Met at Web Summit. Interested in enterprise CRM migration.', createdBy: user._id },
-        { name: 'Aisha Mahmoud', email: 'a.mahmoud@global.logistics', phone: '+1 (555) 018-9283', company: 'Global Logistics', status: 'Won', value: 45000, notes: 'Deal closed. Onboarding scheduled for next week.', createdBy: user._id },
-        { name: 'Thomas Reed', email: 't.reed@reedco.com', phone: '+1 (555) 017-3829', company: 'Reed & Co', status: 'Lost', value: 8200, notes: 'Went with a competitor due to budget constraints.', createdBy: user._id },
-        { name: 'Elena Belova', email: 'e.belova@techventures.io', phone: '+1 (555) 016-4820', company: 'TechVentures', status: 'Qualified', value: 62000, notes: 'In discussions regarding custom API integrations.', createdBy: user._id },
-        { name: 'Sarah Jenkins', email: 's.jenkins@nexus.io', phone: '+1 (555) 012-3456', company: 'Nexus Dynamics', status: 'Qualified', value: 25000, notes: 'Sent proposal. Waiting for feedback.', createdBy: user._id },
-        { name: 'Marcus Thorne', email: 'm.thorne@lumina.com', phone: '+1 (555) 987-6543', company: 'Lumina Systems', status: 'New', value: 15000, notes: 'Inbound inquiry for sales automation.', createdBy: user._id },
-        { name: 'Elena Rodriguez', email: 'elena.r@veloci.global', phone: '+1 (555) 234-5678', company: 'Veloci Global', status: 'Contacted', value: 30000, notes: 'Had initial discovery call. Scheduled demo next Tuesday.', createdBy: user._id },
-        { name: 'David Chen', email: 'd.chen@zenith.com', phone: '+1 (555) 345-6789', company: 'Zenith Venture', status: 'Won', value: 50000, notes: 'Signed annual contract. Starting implementation.', createdBy: user._id },
-        { name: 'Alisha Patel', email: 'a.patel@spark.io', phone: '+1 (555) 456-7890', company: 'Spark Innovation', status: 'Lost', value: 11000, notes: 'Budget frozen for this quarter.', createdBy: user._id }
+        { name: 'Jordan Sterling', email: 'j.sterling@sterling.digital', phone: '+1 (555) 019-2834', company: 'Sterling Digital', status: 'New', value: 12500, notes: 'Met at Web Summit. Interested in enterprise CRM migration.', createdBy: user._id, createdAt: new Date('2026-01-10T12:00:00Z'), isDemo: true },
+        { name: 'Aisha Mahmoud', email: 'a.mahmoud@global.logistics', phone: '+1 (555) 018-9283', company: 'Global Logistics', status: 'Won', value: 45000, notes: 'Deal closed. Onboarding scheduled for next week.', createdBy: user._id, createdAt: new Date('2026-01-24T14:30:00Z'), isDemo: true },
+        { name: 'Thomas Reed', email: 't.reed@reedco.com', phone: '+1 (555) 017-3829', company: 'Reed & Co', status: 'Lost', value: 8200, notes: 'Went with a competitor due to budget constraints.', createdBy: user._id, createdAt: new Date('2026-02-05T09:15:00Z'), isDemo: true },
+        { name: 'Elena Belova', email: 'e.belova@techventures.io', phone: '+1 (555) 016-4820', company: 'TechVentures', status: 'Qualified', value: 62000, notes: 'In discussions regarding custom API integrations.', createdBy: user._id, createdAt: new Date('2026-02-14T11:00:00Z'), isDemo: true },
+        { name: 'Sarah Jenkins', email: 's.jenkins@nexus.io', phone: '+1 (555) 012-3456', company: 'Nexus Dynamics', status: 'Qualified', value: 25000, notes: 'Sent proposal. Waiting for feedback.', createdBy: user._id, createdAt: new Date('2026-02-28T16:45:00Z'), isDemo: true },
+        { name: 'Marcus Thorne', email: 'm.thorne@lumina.com', phone: '+1 (555) 987-6543', company: 'Lumina Systems', status: 'New', value: 15000, notes: 'Inbound inquiry for sales automation.', createdBy: user._id, createdAt: new Date('2026-03-10T10:00:00Z'), isDemo: true },
+        { name: 'Elena Rodriguez', email: 'elena.r@veloci.global', phone: '+1 (555) 234-5678', company: 'Veloci Global', status: 'Contacted', value: 30000, notes: 'Had initial discovery call. Scheduled demo next Tuesday.', createdBy: user._id, createdAt: new Date('2026-04-15T11:30:00Z'), isDemo: true },
+        { name: 'David Chen', email: 'd.chen@zenith.com', phone: '+1 (555) 345-6789', company: 'Zenith Venture', status: 'Won', value: 50000, notes: 'Signed annual contract. Starting implementation.', createdBy: user._id, createdAt: new Date('2026-05-20T14:00:00Z'), isDemo: true },
+        { name: 'Alisha Patel', email: 'a.patel@spark.io', phone: '+1 (555) 456-7890', company: 'Spark Innovation', status: 'Lost', value: 11000, notes: 'Budget frozen for this quarter.', createdBy: user._id, createdAt: new Date('2026-06-02T09:00:00Z'), isDemo: true }
       ];
       await Lead.insertMany(demoLeads);
 
@@ -115,3 +115,49 @@ exports.getMe = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+exports.updateProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (user) {
+      // Validate email uniqueness if email is changing
+      if (req.body.email && req.body.email.toLowerCase() !== user.email.toLowerCase()) {
+        const emailExists = await User.findOne({ email: req.body.email.toLowerCase() });
+        if (emailExists) {
+          return res.status(400).json({ success: false, message: 'Email is already in use by another account' });
+        }
+        user.email = req.body.email;
+      }
+
+      user.name = req.body.name || user.name;
+
+      if (req.body.password) {
+        if (req.body.password.length < 6) {
+          return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' });
+        }
+        user.password = req.body.password;
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        success: true,
+        user: {
+          id: updatedUser._id,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          createdAt: updatedUser.createdAt
+        },
+      });
+    } else {
+      res.status(404).json({ success: false, message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+

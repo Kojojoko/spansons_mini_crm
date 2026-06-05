@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Leads from './pages/Leads';
+import Profile from './pages/Profile';
 import LeadFormModal from './pages/LeadFormModal';
 import './App.css';
 
@@ -33,6 +34,7 @@ function App() {
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="leads" element={<Leads globalSearch={globalSearch} />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
 
           {/* Catch-all Fallback */}
